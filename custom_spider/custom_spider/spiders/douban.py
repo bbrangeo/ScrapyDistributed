@@ -10,13 +10,13 @@ class DoubanSpider(CrawlSpider, Spider):
     start_urls = (
         'https://movie.douban.com/top250',
     )
+
     rules = (
+        Rule(link_extractor=LinkExtractor(allow=('/subject/\d',)), callback='parse_item',
+             process_links='process_links'),
         Rule(link_extractor=LinkExtractor(restrict_xpaths=('//*[@id="content"]//span[@class="next"]',)),
              callback='parse_next', follow=True),
-        Rule(link_extractor=LinkExtractor(allow=('/subject/\d',)), callback='parse_item', process_links='process_links'),
-
     )
-
 
     def make_requests_from_url(self, url):
         request = Request(url, headers={
@@ -25,7 +25,6 @@ class DoubanSpider(CrawlSpider, Spider):
             'host': 'movie.douban.com'
         })
         return request
-
 
     def parse_item(self, response):
         print response.xpath('//title/text()')[0].extract()

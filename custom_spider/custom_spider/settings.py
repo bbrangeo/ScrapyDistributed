@@ -18,6 +18,11 @@ NEWSPIDER_MODULE = 'custom_spider.spiders'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36'
 
+# Mysql Connect
+MYSQL_USERNAME = 'root'
+MYSQL_PASSWORD = '123456'
+MYSQL_HOST = 'localhost'
+MYSQL_DATABASE = 'scrapy_distributed'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
 
