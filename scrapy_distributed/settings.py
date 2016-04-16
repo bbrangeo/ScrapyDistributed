@@ -62,6 +62,16 @@ MYSQL_ENCODING = 'utf8'
 #    'custom_spider.middlewares.MyCustomDownloaderMiddleware': 543,
 # }
 
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+}
+
+
+PLASH_URL = 'http://192.168.59.103:8050'
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
 # EXTENSIONS = {
