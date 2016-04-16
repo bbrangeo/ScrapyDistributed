@@ -25,3 +25,4 @@ def get_mysql_engine():
 def get_mysql_session():
     mysql_engine = get_mysql_engine()
     return sessionmaker(bind=mysql_engine)
+

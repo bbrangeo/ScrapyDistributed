@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import scrapy
+from scrapy.spider import CrawlSpider
 
 
-class SpiderSpider(scrapy.Spider):
+class SpiderSpider(CrawlSpider):
     name = "spider"
     allowed_domains = ["www.cuiqingcai.com"]
     start_urls = (
