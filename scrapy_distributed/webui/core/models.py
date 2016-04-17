@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db.models import Model, CharField, DateTimeField, ForeignKey, IntegerField, TextField
-
+import django.utils.timezone as timezone
 
 class Spider(Model):
     name = CharField(max_length=255)
@@ -11,7 +11,9 @@ class Spider(Model):
     crawler = TextField()
     settings = TextField()
     logger = CharField(max_length=255)
-    updated_at = DateTimeField()
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+
 
 
 class Rule(Model):
@@ -32,5 +34,6 @@ class Rule(Model):
     follow = IntegerField(default=0)
     process_links = CharField(max_length=255)
     process_request = CharField(max_length=255)
-    updated_at = DateTimeField()
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
     spider = ForeignKey(Spider)

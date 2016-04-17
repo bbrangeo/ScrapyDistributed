@@ -12,10 +12,15 @@
         <div class="panel-heading">
             创建爬虫
         </div>
-        <div class="panel-body">
+        <div class="panel-body col-md-4">
             <form action="{% url 'create' %}" method="post" class="form-horizontal">
                 {% csrf_token %}
-                <input type="text" name="name"/>
+                <input type="text" name="name" title="name" class="form-control"/>
+                <input type="text" name="allowed_domains[]" title="allowed_domains" class="form-control"/>
+                <input type="text" name="allowed_domains[]" title="allowed_domains" class="form-control"/>
+                <input type="text" name="allowed_domains[]" title="allowed_domains" class="form-control"/>
+                <input type="text" name="start_urls[]" title="start_urls" class="form-control"/>
+                <input type="text" name="start_urls[]" title="start_urls" class="form-control"/>
                 <input type="submit" value="提交" class="btn btn-sm btn-primary"/>
 
             </form>
