@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="panel">
+        <div class="panel-heading">
+            创建爬虫
+        </div>
+        <div class="panel-body">
+            <form action="{% url 'create' %}" method="post" class="form-horizontal">
+                {% csrf_token %}
+                <input type="text" name="name"/>
+                <input type="submit" value="提交" class="btn btn-sm btn-primary"/>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
