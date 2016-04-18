@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db.models import Model, CharField, DateTimeField, ForeignKey, IntegerField, TextField
-import django.utils.timezone as timezone
+from libs.parse_model import parse_property
+
 
 class Spider(Model):
     name = CharField(max_length=255)
@@ -13,6 +14,24 @@ class Spider(Model):
     logger = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+    @property
+    def get_allowed_domains(self):
+        return parse_property(self.allowed_domains)
+    @property
+    def get_start_urls(self):
+        return parse_property(self.start_urls)
+    @property
+    def get_custom_settings(self):
+        return parse_property(self.custom_settings)
+    @property
+    def get_crawler(self):
+        return parse_property(self.crawler)
+    @property
+    def get_logger(self):
+        return parse_property(self.logger)
+
+
+
 
 
 
@@ -37,3 +56,34 @@ class Rule(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     spider = ForeignKey(Spider)
+    @property
+    def get_allow(self):
+        return parse_property(self.allow)
+    @property
+    def get_deny(self):
+        return parse_property(self.deny)
+    @property
+    def get_allow_domains(self):
+        return parse_property(self.allow_domains)
+    @property
+    def get_deny_domains(self):
+        return parse_property(self.deny_domains)
+    @property
+    def get_deny_extensions(self):
+        return parse_property(self.deny_extensions)
+    @property
+    def get_restrict_xpaths(self):
+        return parse_property(self.restrict_xpaths)
+    @property
+    def get_restrict_css(self):
+        return parse_property(self.restrict_css)
+    @property
+    def get_tags(self):
+        return parse_property(self.tags)
+    @property
+    def get_attrs(self):
+        return parse_property(self.attrs)
+    @property
+    def get_cb_kwargs(self):
+        return parse_property(self.cb_kwargs)
+

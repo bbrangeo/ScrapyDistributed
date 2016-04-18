@@ -1,7 +1,8 @@
+from json import loads
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from .models import Spider
-from json import dumps, loads
+from .models import Spider, Rule
+from libs.create_model import create_spider, create_rule
 
 
 def index(request):
@@ -14,43 +15,28 @@ def create(request):
     if request.method == 'GET':
         return render(request, 'create.html')
     elif request.method == 'POST':
-        allowed_domains = request.POST.getlist('allowed_domains[]')
-
-        a = dumps(allowed_domains)
-        print a
-
-        b = loads(a)
-        print b
-
-        spider = Spider(allowed_domains=a)
-        print 'wwwww', spider.save()
-        print spider.id
-
-        return HttpResponse('sss')
-
-
-def new(request):
-    if request.method == 'POST':
-        allowed_domains = request.POST.getlist('allowed_domains[]')
-
-        a = dumps(allowed_domains)
-        print a
-
-        b = loads(a)
-        print b
-
-        spider = Spider(allowed_domains=a)
-        print 'wwwww', spider.save()
-        print spider.id
-
+        print request.POST
+        spider = create_spider(request)
+        spider.save()
+        spider_id = spider.id
+        rule = create_rule(request, spider_id)
+        rule.save()
+        print rule.id
         return HttpResponse('sss')
 
 
 def edit(request, id):
     if request.method == 'GET':
         spider = get_object_or_404(Spider, pk=id)
-        context = {'spider': spider}
+        rules = Rule.objects.filter(spider_id=id)
+
+        context = {'spider': spider, 'rules': rules}
+        print rules
+        print spider.allowed_domains
         return render(request, 'edit.html', context)
+
+    elif request.method == 'POST':
+        pass
 
 
 def update(request, id):
