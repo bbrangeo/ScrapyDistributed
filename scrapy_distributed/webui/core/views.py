@@ -10,11 +10,26 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def new(request):
-    return render(request, 'new.html')
-
-
 def create(request):
+    if request.method == 'GET':
+        return render(request, 'create.html')
+    elif request.method == 'POST':
+        allowed_domains = request.POST.getlist('allowed_domains[]')
+
+        a = dumps(allowed_domains)
+        print a
+
+        b = loads(a)
+        print b
+
+        spider = Spider(allowed_domains=a)
+        print 'wwwww', spider.save()
+        print spider.id
+
+        return HttpResponse('sss')
+
+
+def new(request):
     if request.method == 'POST':
         allowed_domains = request.POST.getlist('allowed_domains[]')
 
@@ -36,10 +51,15 @@ def edit(request, id):
         spider = get_object_or_404(Spider, pk=id)
         context = {'spider': spider}
         return render(request, 'edit.html', context)
-    
+
 
 def update(request, id):
     if request.method == 'POST':
         spider = get_object_or_404(Spider, pk=id)
         context = {'spider': spider}
         return render(request, 'edit.html', context)
+
+
+def show(request, id):
+    if request.method == 'GET':
+        pass
