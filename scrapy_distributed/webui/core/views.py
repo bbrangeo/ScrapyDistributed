@@ -61,12 +61,11 @@ def edit_rule(request, id):
         context = {'spider': spider, 'rule': rule}
         return render(request, 'edit_rule.html', context)
     elif request.method == 'POST':
-        get_object_or_404(Spider, pk=id)
-        print request.POST
-        rule = cr(request, id)
-        rule.save()
-        print rule.id
-        return HttpResponse('sss')
+        get_object_or_404(Rule, pk=id)
+        result = ur(request, id)
+        print '-----', result
+        if result:
+            return redirect(reverse('edit_rule', args=[id]))
 
 
 def update(request, id):
