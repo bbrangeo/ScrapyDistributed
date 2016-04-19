@@ -37,7 +37,6 @@ def edit_spider(request, id):
 def delete_spider(request, id):
     if request.method == 'POST':
         result = ds(id)
-        print 'xxx', result
         return redirect(reverse('all_spiders', args=[]))
 
 
@@ -50,7 +49,9 @@ def all_spiders(request):
 
 def create_rule(request, id):
     if request.method == 'GET':
-        return render(request, 'create_rule.html')
+        spider = get_object_or_404(Spider, pk=id)
+        context = {'spider': spider}
+        return render(request, 'create_rule.html', context)
     elif request.method == 'POST':
         get_object_or_404(Spider, pk=id)
         rule = cr(request, id)
@@ -61,7 +62,6 @@ def create_rule(request, id):
 def edit_rule(request, id):
     if request.method == 'GET':
         rule = get_object_or_404(Rule, pk=id)
-        print rule
         spider = get_object_or_404(Spider, pk=rule.spider_id)
         context = {'spider': spider, 'rule': rule}
         return render(request, 'edit_rule.html', context)
@@ -75,5 +75,4 @@ def edit_rule(request, id):
 def delete_rule(request, id):
     if request.method == 'POST':
         result = dr(id)
-        print 'xxx', result
         return redirect(reverse('all_spiders', args=[]))
