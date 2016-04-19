@@ -26,6 +26,21 @@
                         </form>
                     </td>
                 </tr>
+                {% for rule in spider.rules %}
+                <tr>
+                    <td><strong>Rule</strong></td>
+                    <td colspan="2">{{ rule }}</td>
+                    <td>
+                        <a href="{% url 'edit_rule' rule.id %}" class="btn btn-primary btn-xs">edit</a>
+
+                        <form action="{% url 'delete_rule' rule.id %}" method="post" class="form-inline del-form">
+                            {% csrf_token %}
+
+                            <a class="btn btn-danger btn-xs remove">delete</a>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
                 {% endfor %}
             </table>
         </div>

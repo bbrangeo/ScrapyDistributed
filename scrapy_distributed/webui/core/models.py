@@ -39,6 +39,10 @@ class Spider(Model):
     def get_logger(self):
         return parse_property(self.logger)
 
+    @property
+    def rules(self):
+        return Rule.objects.filter(spider_id=self.id)
+
 
 class Rule(Model):
     allow = TextField()
@@ -62,8 +66,12 @@ class Rule(Model):
     updated_at = DateTimeField(auto_now=True)
     spider = ForeignKey(Spider)
 
+    def __unicode__(self):
+        return 'xpaths: '+ self.restrict_xpaths + ' allow: ' + self.allow + ' callback: ' + self.callback
+
     @property
     def get_allow(self):
+        print 'xxxx', self.allow
         return parse_property(self.allow)
 
     @property

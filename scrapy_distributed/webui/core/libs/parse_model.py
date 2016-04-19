@@ -2,7 +2,12 @@ from json import loads
 
 
 def parse_property(item):
-    if item:
-        return loads(item)
-    else:
+    try:
+        item = loads(item)
+        if len(item):
+            return item
+        else:
+            return ['']
+    except ValueError:
         return ['']
+

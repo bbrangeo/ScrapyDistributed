@@ -17,7 +17,6 @@ def create_spider(request):
     if request.method == 'GET':
         return render(request, 'create_spider.html')
     elif request.method == 'POST':
-        print request.POST
         spider = cs(request)
         spider.save()
         spider_id = spider.id
@@ -27,17 +26,13 @@ def create_spider(request):
 def edit_spider(request, id):
     if request.method == 'GET':
         spider = get_object_or_404(Spider, pk=id)
-        rules = Rule.objects.filter(spider_id=id)
-
-        context = {'spider': spider, 'rules': rules}
-        print rules
-        print spider.allowed_domains
+        context = {'spider': spider}
         return render(request, 'edit_spider.html', context)
     elif request.method == 'POST':
         result = us(request, id)
-        print '-----', result
         if result:
             return redirect(reverse('edit_spider', args=[id]))
+
 
 def delete_spider(request, id):
     if request.method == 'POST':
@@ -53,32 +48,32 @@ def all_spiders(request):
         return render(request, 'all_spiders.html', context)
 
 
-
-
-
 def create_rule(request, id):
     if request.method == 'GET':
-        spider = get_object_or_404(Spider, pk=id)
-        context = {'spider': spider}
-        return render(request, 'create_rule.html', context)
+        return render(request, 'create_rule.html')
     elif request.method == 'POST':
         get_object_or_404(Spider, pk=id)
-        print request.POST
         rule = cr(request, id)
         rule.save()
-        print rule.id
         return redirect(reverse('edit_rule', args=[rule.id]))
 
 
 def edit_rule(request, id):
     if request.method == 'GET':
         rule = get_object_or_404(Rule, pk=id)
+        print rule
         spider = get_object_or_404(Spider, pk=rule.spider_id)
         context = {'spider': spider, 'rule': rule}
         return render(request, 'edit_rule.html', context)
     elif request.method == 'POST':
         get_object_or_404(Rule, pk=id)
         result = ur(request, id)
-        print '-----', result
         if result:
             return redirect(reverse('edit_rule', args=[id]))
+
+
+def delete_rule(request, id):
+    if request.method == 'POST':
+        result = dr(id)
+        print 'xxx', result
+        return redirect(reverse('all_spiders', args=[]))
