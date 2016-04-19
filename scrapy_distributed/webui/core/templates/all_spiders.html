@@ -8,20 +8,23 @@
                 <tr>
                     <th>Name</th>
                     <th>Allowed Domains</th>
-                    <th>Create At</th>
+                    <th>Created At</th>
                     <th>Operations</th>
                 </tr>
                 {% for spider in spiders %}
                 <tr>
                     <td>{{ spider.name }}</td>
                     <td>{{ spider.allowed_domains}}</td>
-                    <td>{{ spider.create_at }}</td>
+                    <td>{{ spider.created_at }}</td>
                     <td>
                         <a href="{% url 'edit_spider' spider.id %}" class="btn btn-primary btn-xs">edit</a>
-                        <a href="{% url 'delete_spider' spider.id %}" class="btn btn-primary btn-xs">delete</a>
-                    </td>
-                    <td></td>
 
+                        <form action="{% url 'delete_spider' spider.id %}" method="post" class="form-inline">
+                            {% csrf_token %}
+
+                            <input type="submit" class="btn btn-danger btn-xs" value="delete">
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

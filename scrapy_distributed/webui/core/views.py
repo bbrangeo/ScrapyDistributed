@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Spider, Rule
 from libs.create_model import create_spider as cs, create_rule as cr
 from libs.update_model import update_spider as us, update_rule as ur
+from libs.delete_model import delete_spider as ds, delete_rule as dr
 
 
 def index(request):
@@ -39,7 +40,10 @@ def edit_spider(request, id):
             return redirect(reverse('edit_spider', args=[id]))
 
 def delete_spider(request, id):
-    pass
+    if request.method == 'POST':
+        result = ds(id)
+        print 'xxx', result
+        return redirect(reverse('all_spiders', args=[]))
 
 
 def all_spiders(request):
