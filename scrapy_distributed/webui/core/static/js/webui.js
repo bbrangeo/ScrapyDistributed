@@ -11,4 +11,16 @@ $(function () {
         $(this).closest('div').prev().remove();
         $(this).closest('div').remove();
     });
+    $('.del-form').on('click', '.remove', function () {
+        $('#modal').modal({
+            keyboard: true
+        });
+        $form = $(this).closest('.del-form');
+        console.log($form);
+        $('#modal').on('click', '.remove', function () {
+            console.log('xxxxxx');
+            $form.submit();
+        });
+    });
+
 });

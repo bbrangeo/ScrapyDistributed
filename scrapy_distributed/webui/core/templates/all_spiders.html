@@ -19,15 +19,41 @@
                     <td>
                         <a href="{% url 'edit_spider' spider.id %}" class="btn btn-primary btn-xs">edit</a>
 
-                        <form action="{% url 'delete_spider' spider.id %}" method="post" class="form-inline">
+                        <form action="{% url 'delete_spider' spider.id %}" method="post" class="form-inline del-form">
                             {% csrf_token %}
 
-                            <input type="submit" class="btn btn-danger btn-xs" value="delete">
+                            <a class="btn btn-danger btn-xs remove">delete</a>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </table>
+        </div>
+    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        警告
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    确认要删除吗？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-danger remove">
+                        删除
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
