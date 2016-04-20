@@ -2,12 +2,16 @@
 from scrapy.spider import CrawlSpider
 
 
-class SpiderSpider(CrawlSpider):
-    name = "spider"
-    allowed_domains = ["www.cuiqingcai.com"]
-    start_urls = (
-        'http://www.www.cuiqingcai.com/',
-    )
+class CommonSpider(CrawlSpider):
 
-    def parse(self, response):
-        pass
+    def __init__(self, spider, rule):
+        self.name = spider.name
+        self.allowed_domains = spider.get_allowed_domains
+        print self.allowed_domains
+        self.start_urls = spider.get_start_urls
+        rule_list = []
+        self.rules = tuple(rule_list)
+        super(CommonSpider, self).__init__()
+
+    def parse_start_url(self, response):
+        print response.url

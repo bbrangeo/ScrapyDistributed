@@ -43,6 +43,9 @@ class Spider(Model):
     def rules(self):
         return Rule.objects.filter(spider_id=self.id)
 
+    def __unicode__(self):
+        return 'name: '+ self.name + ' allowed_domains: ' + self.allowed_domains + ' start_urls: ' + self.start_urls
+
 
 class Rule(Model):
     allow = TextField()
