@@ -8,6 +8,10 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+from scrapy_distributed.lib import get_local_ip
+
+LOCAL_IP = get_local_ip()
+
 
 BOT_NAME = 'scrapy_distributed'
 
@@ -26,6 +30,8 @@ MYSQL_DATABASE = 'scrapy_distributed'
 MYSQL_PORT = 3306
 MYSQL_ENCODING = 'utf8'
 
+SCHEDULER = "scrapy_distributed.redis.scheduler.Scheduler"
+SCHEDULER_PERSIST = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS=32
@@ -68,7 +74,6 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
 }
 
-
 PLASH_URL = 'http://192.168.59.103:8050'
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
@@ -80,9 +85,13 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'custom_spider.pipelines.SomePipeline': 300,
-# }
+ITEM_PIPELINES = {
+    #'custom_spider.pipelines.SomePipeline': 300,
+    'scrapy_distributed.redis.pipelines.RedisPipeline': 400,
+
+}
+
+REDIS_URL = 'redis://root:940629cqc@120.27.34.24:6379'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

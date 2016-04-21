@@ -4,6 +4,10 @@ import new
 from scrapy.spiders import Rule
 from scrapy.linkextractors import LinkExtractor
 import re
+from scrapy.utils.project import get_project_settings
+
+settings = get_project_settings()
+from scrapy_distributed.items import CommonSpiderItem
 
 class CommonSpider(CrawlSpider):
     def __init__(self, spider, rule):
@@ -21,7 +25,7 @@ class CommonSpider(CrawlSpider):
                 restrict_xpaths=spider_rule.get_restrict_xpaths),
                 callback=spider_rule.callback))
         self.rules = tuple(rule_list)
-
+        print list(self.rules)
         for method in spider.get_methods:
             method_name = self.parse_method(method)
             self.extends(method_name, method)
@@ -38,3 +42,6 @@ class CommonSpider(CrawlSpider):
             return method_name.group(1)
         else:
             return None
+
+    def parse_start_url(self, response):
+        print response.url + response.code

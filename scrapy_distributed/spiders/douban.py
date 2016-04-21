@@ -2,9 +2,10 @@
 from scrapy import Request, Spider
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
+from scrapy_distributed.items import DoubanItem
 
 
-class DoubanSpider(CrawlSpider, Spider):
+class DoubanSpider(CrawlSpider):
     name = "douban"
     allowed_domains = ["movie.douban.com"]
     start_urls = (
@@ -18,16 +19,11 @@ class DoubanSpider(CrawlSpider, Spider):
              callback='parse_next', follow=True),
     )
 
-    def make_requests_from_url(self, url):
-        request = Request(url, headers={
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36',
-            'upgrade-insecure-requests': 1,
-            'host': 'movie.douban.com'
-        })
-        return request
-
     def parse_item(self, response):
-        print response.xpath('//title/text()')[0].extract()
+        name= response.xpath('//title/text()')[0].extract()
+        item = DoubanItem()
+        item['name'] = name
+        yield item
 
     def parse_next(self, response):
         print response.url
