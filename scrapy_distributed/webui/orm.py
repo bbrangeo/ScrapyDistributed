@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
+import django
 
-print os.getcwd()
 os.sys.path.append(os.getcwd())
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lib.settings")
-import django
 django.setup()
 
 from core.models import Spider
 
-
 def get_all_spiders():
     return Spider.objects.all()
+
 
 def get_spider(name):
     spiders =  Spider.objects.filter(name=name)
