@@ -10,13 +10,16 @@ def create_spider(request):
     crawler = request.POST.getlist('crawler[]')
     settings = request.POST.getlist('settings[]')
     logger = request.POST.get('logger')
+    methods = request.POST.getlist('methods[]')
+    print methods
     allowed_domains = dumps(allowed_domains)
     start_urls = dumps(start_urls)
+    methods = dumps(methods)
     custom_settings = dumps(custom_settings)
     crawler = dumps(crawler)
     settings = dumps(settings)
     spider = Spider(name=name, allowed_domains=allowed_domains, custom_settings=custom_settings,
-                    start_urls=start_urls, crawler=crawler, settings=settings, logger=logger)
+                    start_urls=start_urls, methods=methods, crawler=crawler, settings=settings, logger=logger)
     return spider
 
 

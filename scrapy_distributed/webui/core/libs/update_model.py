@@ -6,18 +6,22 @@ def update_spider(request, id):
     name = request.POST.get('name')
     allowed_domains = request.POST.getlist('allowed_domains[]')
     start_urls = request.POST.getlist('start_urls[]')
+    methods = request.POST.getlist('methods[]')
     custom_settings = request.POST.getlist('custom_settings[]')
     crawler = request.POST.getlist('crawler[]')
     settings = request.POST.getlist('settings[]')
     logger = request.POST.get('logger')
-    print 'xxxxx',logger
+    print 'xxxxx', logger
     allowed_domains = dumps(allowed_domains)
     start_urls = dumps(start_urls)
+    methods = dumps(methods)
     custom_settings = dumps(custom_settings)
     crawler = dumps(crawler)
     settings = dumps(settings)
-    result = Spider.objects.filter(id=id).update(name=name, allowed_domains=allowed_domains, custom_settings=custom_settings,
-                    start_urls=start_urls, crawler=crawler, settings=settings, logger=logger)
+    result = Spider.objects.filter(id=id).update(name=name, allowed_domains=allowed_domains,
+                                                 custom_settings=custom_settings,
+                                                 start_urls=start_urls, methods=methods, crawler=crawler,
+                                                 settings=settings, logger=logger)
     return result
 
 
@@ -52,9 +56,13 @@ def update_rule(request, id):
     canonicalize = canonicalize if canonicalize else 1
     unique = unique if unique else 1
     follow = follow if follow else 1
-    result = Rule.objects.filter(id=id).update(allow=allow, deny=deny, allow_domains=allow_domains, deny_domains=deny_domains,
-                deny_extensions=deny_extensions, restrict_xpaths=restrict_xpaths, restrict_css=restrict_css,
-                tags=tags, attrs=attrs, canonicalize=canonicalize, unique=unique, process_value=process_value,
-                callback=callback, cb_kwargs=cb_kwargs, follow=follow, process_links=process_links,
-                process_request=process_request)
+    result = Rule.objects.filter(id=id).update(allow=allow, deny=deny, allow_domains=allow_domains,
+                                               deny_domains=deny_domains,
+                                               deny_extensions=deny_extensions, restrict_xpaths=restrict_xpaths,
+                                               restrict_css=restrict_css,
+                                               tags=tags, attrs=attrs, canonicalize=canonicalize, unique=unique,
+                                               process_value=process_value,
+                                               callback=callback, cb_kwargs=cb_kwargs, follow=follow,
+                                               process_links=process_links,
+                                               process_request=process_request)
     return result

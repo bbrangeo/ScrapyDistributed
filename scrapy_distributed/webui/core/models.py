@@ -9,6 +9,7 @@ class Spider(Model):
     allowed_domains = TextField()
     start_urls = TextField()
     custom_settings = TextField()
+    methods = TextField(default=None)
     crawler = TextField()
     settings = TextField()
     logger = CharField(max_length=255)
@@ -32,6 +33,10 @@ class Spider(Model):
         return parse_property(self.crawler)
 
     @property
+    def get_methods(self):
+        return parse_property(self.methods)
+
+    @property
     def get_settings(self):
         return parse_property(self.settings)
 
@@ -44,7 +49,7 @@ class Spider(Model):
         return Rule.objects.filter(spider_id=self.id)
 
     def __unicode__(self):
-        return 'name: '+ self.name + ' allowed_domains: ' + self.allowed_domains + ' start_urls: ' + self.start_urls
+        return 'name: ' + self.name + ' allowed_domains: ' + self.allowed_domains + ' start_urls: ' + self.start_urls
 
 
 class Rule(Model):
@@ -70,7 +75,7 @@ class Rule(Model):
     spider = ForeignKey(Spider)
 
     def __unicode__(self):
-        return 'xpaths: '+ self.restrict_xpaths + ' allow: ' + self.allow + ' callback: ' + self.callback
+        return 'xpaths: ' + self.restrict_xpaths + ' allow: ' + self.allow + ' callback: ' + self.callback
 
     @property
     def get_allow(self):
