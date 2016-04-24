@@ -18,11 +18,9 @@ class CommonSpider(CrawlSpider):
         rule_list = []
         spider_rules = spider.rules
         for spider_rule in spider_rules:
-            rule_list.append(Rule(LinkExtractor(
-                allow=spider_rule.get_allow,
-                deny=spider_rule.get_deny,
-                allow_domains=spider_rule.get_allow_domains,
-                restrict_xpaths=spider_rule.get_restrict_xpaths),
+            extractor = spider_rule.get_extractor
+            print extractor
+            rule_list.append(Rule(LinkExtractor(**extractor),
                 callback=spider_rule.callback))
         self.rules = tuple(rule_list)
         print list(self.rules)

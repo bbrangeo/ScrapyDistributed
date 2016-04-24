@@ -74,6 +74,29 @@ class Rule(Model):
     updated_at = DateTimeField(auto_now=True)
     spider = ForeignKey(Spider)
 
+    @property
+    def get_extractor(self):
+        attr_dict = {}
+        attrs = ['allow', 'deny', 'allow_domains',
+                 'deny_domains', 'deny_extensions',
+                 'restrict_xpaths', 'restrict_css',
+                 'tags', 'attrs', 'canonicalize',
+                 'unique', 'process_value'
+                 ]
+        for attr in attrs:
+            value = self.get_attr_value(attr)
+            if value:
+                attr_dict[attr] = value
+        return attr_dict
+
+    def get_attr_value(self, attr):
+        if hasattr(self, 'get_' + attr):
+            return getattr(self, 'get_' + attr)
+        elif hasattr(self, attr):
+            return getattr(self, attr)
+        else:
+            return None
+
     def __unicode__(self):
         return 'xpaths: ' + self.restrict_xpaths + ' allow: ' + self.allow + ' callback: ' + self.callback
 

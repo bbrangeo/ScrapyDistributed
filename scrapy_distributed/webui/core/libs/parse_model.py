@@ -1,15 +1,13 @@
 from json import loads
 
 
-def parse_property(item, nullable=False):
+def parse_property(item):
     try:
         item = loads(item)
         if len(item):
-            return item
-        elif nullable:
-            return None
+            return tuple(item)
         else:
-            return ['']
+            return None
     except ValueError:
-        return ['']
+        return None
 
