@@ -9,6 +9,7 @@ from scrapy.utils.project import get_project_settings
 settings = get_project_settings()
 from scrapy_distributed.items import CommonSpiderItem
 
+
 class CommonSpider(CrawlSpider):
     def __init__(self, spider, rule):
         self.name = spider.name
@@ -19,11 +20,12 @@ class CommonSpider(CrawlSpider):
         spider_rules = spider.rules
         for spider_rule in spider_rules:
             extractor = spider_rule.get_extractor
+            rule_paras = spider_rule.get_rule_paras
+            print rule_paras
             print extractor
             rule_list.append(Rule(LinkExtractor(**extractor),
-                callback=spider_rule.callback))
+                                  **rule_paras))
         self.rules = tuple(rule_list)
-        print list(self.rules)
         for method in spider.get_methods:
             method_name = self.parse_method(method)
             self.extends(method_name, method)
