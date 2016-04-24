@@ -15,7 +15,8 @@ def index(request):
 
 def create_spider(request):
     if request.method == 'GET':
-        return render(request, 'create_spider.html')
+        context = {'spider': Spider()}
+        return render(request, 'create_spider.html', context)
     elif request.method == 'POST':
         spider = cs(request)
         spider.save()
@@ -50,7 +51,7 @@ def all_spiders(request):
 def create_rule(request, id):
     if request.method == 'GET':
         spider = get_object_or_404(Spider, pk=id)
-        context = {'spider': spider}
+        context = {'spider': spider, 'rule': Rule()}
         return render(request, 'create_rule.html', context)
     elif request.method == 'POST':
         get_object_or_404(Spider, pk=id)

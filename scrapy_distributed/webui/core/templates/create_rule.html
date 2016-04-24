@@ -10,176 +10,34 @@
                 </div>
                 <div class="panel-body">
 
+                    {% for attr, value in rule.get_all_properties.items %}
                     <div class="form-group">
-                        <label for="allow" class="control-label col-md-2 col-sm-12 col-xs-12">Allow</label>
+                        <label for="{{ attr }}" class="control-label col-md-2 col-sm-12 col-xs-12">
+                            {{ value.display }}</label>
+                        {% if value.kind == 'list' %}
 
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="allow[]" id="allow" title="allow" class="form-control m-b-sm"/>
+                            <input type="text" name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm"
+                                   value="{{ item }}"/>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
                             <input type="button" class="btn btn-primary btn-xs add" value="add">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="deny" class="control-label col-md-2 col-sm-12 col-xs-12">Deny</label>
 
+                        {% elif value.kind == 'number' %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="deny[]" id="deny" title="deny"
-                                   class="form-control m-b-sm"/>
+                            <input type="number" name="{{ attr }}" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm" value="{{ value.value }}"/>
                         </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="allow_domains" class="control-label col-md-2 col-sm-12 col-xs-12">Allow
-                            Domains</label>
-
+                        {% elif value.kind == 'text' %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="allow_domains[]" id="allow_domains" title="allow_domains"
-                                   class="form-control m-b-sm"/>
+                            <input type="text" name="{{ attr }}" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm" value="{{ value.value }}"/>
                         </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
+                        {% endif %}
                     </div>
-                    <div class="form-group">
-                        <label for="deny_domains" class="control-label col-md-2 col-sm-12 col-xs-12">Deny
-                            Domains</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="deny_domains[]" id="deny_domains" title="deny_domains"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="deny_extensions" class="control-label col-md-2 col-sm-12 col-xs-12">Deny
-                            Extensions</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="deny_extensions[]" id="deny_extensions" title="deny_extensions"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="restrict_xpaths" class="control-label col-md-2 col-sm-12 col-xs-12">Restrict
-                            Xpaths</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="restrict_xpaths[]" id="restrict_xpaths" title="restrict_xpaths"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="restrict_css" class="control-label col-md-2 col-sm-12 col-xs-12">Restrict
-                            CSS</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="restrict_css[]" id="restrict_css" title="restrict_css"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tags" class="control-label col-md-2 col-sm-12 col-xs-12">Tags</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="tags[]" id="tags" title="tags" class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="attrs" class="control-label col-md-2 col-sm-12 col-xs-12">Attrs</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="attrs[]" id="attrs" title="attrs" class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="canonicalize"
-                               class="control-label col-md-2 col-sm-12 col-xs-12">Canonicalize</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="canonicalize" id="canonicalize" title="canonicalize"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="unique" class="control-label col-md-2 col-sm-12 col-xs-12">Unique</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="unique" id="unique" title="unique" class="form-control m-b-sm"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="process_value" class="control-label col-md-2 col-sm-12 col-xs-12">Process
-                            Value</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="process_value" id="process_value" title="process_value"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="callback" class="control-label col-md-2 col-sm-12 col-xs-12">Callback</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="callback" id="callback" title="callback"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cb_kwargs" class="control-label col-md-2 col-sm-12 col-xs-12">Cb Kwargs</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="cb_kwargs[]" id="cb_kwargs" title="cb_kwargs"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="follow" class="control-label col-md-2 col-sm-12 col-xs-12">Follow</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="follow" id="follow" title="follow" class="form-control m-b-sm"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="process_links" class="control-label col-md-2 col-sm-12 col-xs-12">Process
-                            Links</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="process_links" id="process_links" title="process_links"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="process_request" class="control-label col-md-2 col-sm-12 col-xs-12">Process
-                            Request</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="process_request" id="process_request" title="process_request"
-                                   class="form-control m-b-sm"/>
-                        </div>
-                    </div>
+                    {% endfor %}
                     <div class="form-group">
                         <div class="col-md-12 text-center">
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary"/>

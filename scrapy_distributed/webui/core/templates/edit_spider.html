@@ -10,164 +10,86 @@
                 </div>
                 <div class="panel-body">
 
+                    {% for attr, value in spider.get_all_properties.items %}
                     <div class="form-group">
-                        <label for="name" class="control-label col-md-2 col-sm-12 col-xs-12">Name</label>
+                        <label for="{{ attr }}" class="control-label col-md-2 col-sm-12 col-xs-12">
+                            {{ value.display }}</label>
+                        {% if value.kind == 'list' %}
 
+                        {% if not value.value %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="name" id="name" title="name" class="form-control m-b-sm"
-                                   value="{{ spider.name }}"/>
+                            <input type="text" name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm"
+                                   value="{{ item }}"/>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="allowed_domains" class="control-label col-md-2 col-sm-12 col-xs-12">Allowed
-                            Domains</label>
-
-                        {% for item in spider.get_allowed_domains %}
-
+                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
+                            <input type="button" class="btn btn-primary btn-xs add" value="add">
+                        </div>
+                        {% endif %}
+                        {% for item in value.value %}
                         {% if forloop.first %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="allowed_domains[]" title="allowed_domains"
-                                   id="allowed_domains" class="form-control m-b-sm" value="{{ item }}">
-
+                            <input type="text" name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm"
+                                   value="{{ item }}"/>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
                             <input type="button" class="btn btn-primary btn-xs add" value="add">
                         </div>
                         {% else %}
                         <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="allowed_domains[]" title="allowed_domains"
-                                   class="form-control m-b-sm" value="{{ item }}">
-
+                            <input type="text" name="{{ attr }}[]" title="{{ attr }}" class="form-control m-b-sm"
+                                   value="{{ item }}"/>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
                             <input type="button" class="btn btn-danger btn-xs del" value="delete">
                         </div>
                         {% endif %}
-
                         {% endfor %}
 
-                    </div>
-                    <div class="form-group">
-                        <label for="start_urls" class="control-label col-md-2 col-sm-12 col-xs-12">Start Urls</label>
-                        {% for item in spider.get_start_urls %}
+                        {% elif value.kind == 'number' %}
+                        <div class="col-md-9 col-sm-10 col-xs-10">
+                            <input type="number" name="{{ attr }}" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm" value="{{ value.value }}"/>
+                        </div>
+                        {% elif value.kind == 'list_area' %}
+                        {% if not value.value %}
+                        <div class="col-md-9 col-sm-10 col-xs-10">
+                            <textarea name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                      class="form-control m-b-sm">{{ value.value }}</textarea>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
+                            <input type="button" class="btn btn-primary btn-xs add" value="add">
+                        </div>
+                        {% endif %}
+                        {% for item in value.value %}
                         {% if forloop.first %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="start_urls[]" id="start_urls" title="start_urls"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
+                            <textarea name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                      class="form-control m-b-sm">{{ value.value }}</textarea>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
                             <input type="button" class="btn btn-primary btn-xs add" value="add">
                         </div>
                         {% else %}
                         <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="start_urls[]" title="start_urls"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
+                            <textarea name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                      class="form-control m-b-sm">{{ value.value }}</textarea>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
                             <input type="button" class="btn btn-danger btn-xs del" value="delete">
                         </div>
                         {% endif %}
+                        {% endfor %}
 
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="start_urls" class="control-label col-md-2 col-sm-12 col-xs-12">Methods</label>
-                        {% for item in spider.get_methods %}
-                        {% if forloop.first %}
+                        {% elif value.kind == 'text' %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <textarea name="methods[]" id="methods" title="methods"
-                                   class="form-control m-b-sm">{{ item }}</textarea>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <textarea name="methods[]" title="methods"
-                                   class="form-control m-b-sm">{{ item }}</textarea>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
+                            <input type="text" name="{{ attr }}" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm" value="{{ value.value }}"/>
                         </div>
                         {% endif %}
-
-                        {% endfor %}
                     </div>
-                    <div class="form-group">
-                        <label for="custom_settings" class="control-label col-md-2 col-sm-12 col-xs-12">Custom
-                            Settings</label>
-                        {% for item in spider.get_custom_settings %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="custom_settings[]" id="custom_settings" title="custom_settings"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="custom_settings[]" title="custom_settings"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="crawler" class="control-label col-md-2 col-sm-12 col-xs-12">Crawler</label>
-                        {% for item in spider.get_crawler %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="crawler[]" id="crawler" title="crawler"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="crawler[]" title="crawler"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="settings" class="control-label col-md-2 col-sm-12 col-xs-12">Settings</label>
-                        {% for item in spider.get_settings %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="settings[]" id="settings" title="settings"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="settings[]" title="settings"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="logger" class="control-label col-md-2 col-sm-12 col-xs-12">Logger</label>
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="logger" id="logger" value="{{ spider.logger }}"title="logger" class="form-control m-b-sm"/>
-                        </div>
-                    </div>
+                    {% endfor %}
                     <div class="form-group">
                         <div class="col-md-12 text-center">
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary"/>

@@ -10,12 +10,25 @@
                 </div>
                 <div class="panel-body">
 
+                    {% for attr, value in rule.get_all_properties.items %}
                     <div class="form-group">
-                        <label for="allow" class="control-label col-md-2 col-sm-12 col-xs-12">Allow</label>
-                        {% for item in rule.get_allow %}
+                        <label for="{{ attr }}" class="control-label col-md-2 col-sm-12 col-xs-12">{{ value.display }}</label>
+                        {% if value.kind == 'list' %}
+                        {% if not value.value %}
+                        <div class="col-md-9 col-sm-10 col-xs-10">
+                            <input type="text" name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm"
+                                   value="{{ item }}"/>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
+                            <input type="button" class="btn btn-primary btn-xs add" value="add">
+                        </div>
+                        {% endif %}
+                        {% for item in value.value %}
                         {% if forloop.first %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="allow[]" id="allow" title="allow" class="form-control m-b-sm"
+                            <input type="text" name="{{ attr }}[]" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm"
                                    value="{{ item }}"/>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
@@ -23,166 +36,7 @@
                         </div>
                         {% else %}
                         <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="allow[]" title="allow" class="form-control m-b-sm"
-                                   value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs delete" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="deny" class="control-label col-md-2 col-sm-12 col-xs-12">Deny</label>
-                        {% for item in rule.get_deny %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="deny[]" id="deny" title="deny"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="deny[]" title="deny"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs delete" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="allow_domains" class="control-label col-md-2 col-sm-12 col-xs-12">Allow
-                            Domains</label>
-                        {% for item in rule.get_allow_domains %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="allow_domains[]" id="allow_domains" title="allow_domains"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="allow_domains[]" title="allow_domains"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="deny_domains" class="control-label col-md-2 col-sm-12 col-xs-12">Deny
-                            Domains</label>
-                        {% for item in rule.get_deny_domains %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="deny_domains[]" id="deny_domains" title="deny_domains"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="deny_domains[]" title="deny_domains"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="deny_extensions" class="control-label col-md-2 col-sm-12 col-xs-12">Deny
-                            Extensions</label>
-                        {% for item in rule.get_deny_extensions %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="deny_extensions[]" id="deny_extensions" title="deny_extensions"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="deny_extensions[]" title="deny_extensions"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="restrict_xpaths" class="control-label col-md-2 col-sm-12 col-xs-12">Restrict
-                            Xpaths</label>
-                        {% for item in rule.get_restrict_xpaths %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="restrict_xpaths[]" id="restrict_xpaths" title="restrict_xpaths"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="restrict_xpaths[]" title="restrict_xpaths"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="restrict_css" class="control-label col-md-2 col-sm-12 col-xs-12">Restrict
-                            CSS</label>
-                        {% for item in rule.get_restrict_css %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="restrict_css[]" id="restrict_css" title="restrict_css"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="restrict_css[]" title="restrict_css"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="tags" class="control-label col-md-2 col-sm-12 col-xs-12">Tags</label>
-                        {% for item in rule.get_tags %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="tags[]" id="tags" title="tags" class="form-control m-b-sm"
-                                   value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="tags[]" title="tags" class="form-control m-b-sm"
+                            <input type="text" name="{{ attr }}[]" title="{{ attr }}" class="form-control m-b-sm"
                                    value="{{ item }}"/>
                         </div>
                         <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
@@ -190,111 +44,20 @@
                         </div>
                         {% endif %}
                         {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="attrs" class="control-label col-md-2 col-sm-12 col-xs-12">Attrs</label>
-                        {% for item in rule.get_tags %}
-                        {% if forloop.first %}
+
+                        {% elif value.kind == 'number' %}
                         <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="attrs[]" id="attrs" title="attrs" class="form-control m-b-sm"
-                                   value="{{ item }}"/>
+                            <input type="number" name="{{ attr }}" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm" value="{{ value.value }}"/>
                         </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="attrs[]" title="attrs" class="form-control m-b-sm"
-                                   value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
+                        {% elif value.kind == 'text' %}
+                        <div class="col-md-9 col-sm-10 col-xs-10">
+                            <input type="text" name="{{ attr }}" id="{{ attr }}" title="{{ attr }}"
+                                   class="form-control m-b-sm" value="{{ value.value }}"/>
                         </div>
                         {% endif %}
-                        {% endfor %}
                     </div>
-                    <div class="form-group">
-                        <label for="canonicalize"
-                               class="control-label col-md-2 col-sm-12 col-xs-12">Canonicalize</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="number" name="canonicalize" id="canonicalize" title="canonicalize"
-                                   class="form-control m-b-sm" value="{{ rule.canonicalize }}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="unique" class="control-label col-md-2 col-sm-12 col-xs-12">Unique</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="number" name="unique" id="unique" title="unique" class="form-control m-b-sm"
-                                   value="{{ rule.unique }}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="process_value" class="control-label col-md-2 col-sm-12 col-xs-12">Process
-                            Value</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="process_value" id="process_value" title="process_value"
-                                   class="form-control m-b-sm" value="{{ rule.process_value }}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="callback" class="control-label col-md-2 col-sm-12 col-xs-12">Callback</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="callback" id="callback" title="callback"
-                                   class="form-control m-b-sm" value="{{ rule.callback }}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cb_kwargs" class="control-label col-md-2 col-sm-12 col-xs-12">Cb Kwargs</label>
-                        {% for item in rule.get_tags %}
-                        {% if forloop.first %}
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="cb_kwargs[]" id="cb_kwargs" title="cb_kwargs"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-primary btn-xs add" value="add">
-                        </div>
-                        {% else %}
-                        <div class="col-md-9 col-sm-10 col-xs-10 col-md-offset-2">
-                            <input type="text" name="cb_kwargs[]" title="cb_kwargs"
-                                   class="form-control m-b-sm" value="{{ item }}"/>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-2 p-t-xs">
-                            <input type="button" class="btn btn-danger btn-xs del" value="delete">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <label for="follow" class="control-label col-md-2 col-sm-12 col-xs-12">Follow</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="number" name="follow" id="follow" title="follow" class="form-control m-b-sm"
-                                    value="{{ rule.follow }}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="process_links" class="control-label col-md-2 col-sm-12 col-xs-12">Process
-                            Links</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="process_links" id="process_links" title="process_links"
-                                   class="form-control m-b-sm" value="{{ rule.process_links }}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="process_request" class="control-label col-md-2 col-sm-12 col-xs-12">Process
-                            Request</label>
-
-                        <div class="col-md-9 col-sm-10 col-xs-10">
-                            <input type="text" name="process_request" id="process_request" title="process_request"
-                                   class="form-control m-b-sm" value="{{ rule.process_request }}"/>
-                        </div>
-                    </div>
+                    {% endfor %}
                     <div class="form-group">
                         <div class="col-md-12 text-center">
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary"/>

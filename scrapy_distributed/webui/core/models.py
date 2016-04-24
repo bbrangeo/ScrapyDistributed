@@ -21,6 +21,10 @@ class Spider(Model):
         return parse_property(self.allowed_domains)
 
     @property
+    def get_methods(self):
+        return parse_property(self.methods)
+
+    @property
     def get_start_urls(self):
         return parse_property(self.start_urls)
 
@@ -50,6 +54,30 @@ class Spider(Model):
 
     def __unicode__(self):
         return 'name: ' + self.name + ' allowed_domains: ' + self.allowed_domains + ' start_urls: ' + self.start_urls
+
+    def get_attr_value(self, attr):
+        if hasattr(self, 'get_' + attr):
+            return getattr(self, 'get_' + attr)
+        elif hasattr(self, attr):
+            return getattr(self, attr)
+        else:
+            return None
+
+
+    @property
+    def get_all_properties(self):
+        return {
+            'name': {'kind': 'text', 'value': self.get_attr_value('name'), 'display': 'Name'},
+            'allowed_domains': {'kind': 'list', 'value': self.get_attr_value('allowed_domains'),
+                                'display': 'Allowed Domains'},
+            'start_urls': {'kind': 'list', 'value': self.get_attr_value('start_urls'), 'display': 'Start Urls'},
+            'custom_settings': {'kind': 'list', 'value': self.get_attr_value('custom_settings'),
+                                'display': 'Custom Settings'},
+            'crawler': {'kind': 'list', 'value': self.get_attr_value('crawler'), 'display': 'Crawler'},
+            'settings': {'kind': 'list', 'value': self.get_attr_value('settings'), 'display': 'Settings'},
+            'logger': {'kind': 'text', 'value': self.get_attr_value('logger'), 'display': 'Logger'},
+            'methods': {'kind': 'list_area', 'value': self.get_attr_value('methods'), 'display': 'Methods'},
+        }
 
 
 class Rule(Model):
@@ -151,3 +179,31 @@ class Rule(Model):
     @property
     def get_cb_kwargs(self):
         return parse_property(self.cb_kwargs)
+
+    @property
+    def get_all_properties(self):
+        return {
+            'allow': {'kind': 'list', 'value': self.get_attr_value('allow'), 'display': 'Allow'},
+            'deny': {'kind': 'list', 'value': self.get_attr_value('deny'), 'display': 'Deny'},
+            'allow_domains': {'kind': 'list', 'value': self.get_attr_value('allow_domains'),
+                              'display': 'Allow Domains'},
+            'deny_domains': {'kind': 'list', 'value': self.get_attr_value('deny_domains'), 'display': 'Deny Domains'},
+            'deny_extensions': {'kind': 'list', 'value': self.get_attr_value('deny_extensions'),
+                                'display': 'Deny Extensions'},
+            'restrict_xpaths': {'kind': 'list', 'value': self.get_attr_value('restrict_xpaths'),
+                                'display': 'Restrict Xpaths'},
+            'restrict_css': {'kind': 'list', 'value': self.get_attr_value('restrict_css'), 'display': 'Restrict CSS'},
+            'tags': {'kind': 'list', 'value': self.get_attr_value('tags'), 'display': 'Tags'},
+            'attrs': {'kind': 'list', 'value': self.get_attr_value('attrs'), 'display': 'Attrs'},
+            'canonicalize': {'kind': 'number', 'value': self.get_attr_value('canonicalize'), 'display': 'Canonicalize'},
+            'unique': {'kind': 'number', 'value': self.get_attr_value('unique'), 'display': 'Unique'},
+            'process_value': {'kind': 'text', 'value': self.get_attr_value('process_value'),
+                              'display': 'Process Value'},
+            'callback': {'kind': 'text', 'value': self.get_attr_value('callback'), 'display': 'Callback'},
+            'cb_kwargs': {'kind': 'list', 'value': self.get_attr_value('cb_kwargs'), 'display': 'Cb Kwargs'},
+            'follow': {'kind': 'number', 'value': self.get_attr_value('follow'), 'display': 'Follow'},
+            'process_links': {'kind': 'text', 'value': self.get_attr_value('process_links'),
+                              'display': 'Process Links'},
+            'process_request': {'kind': 'text', 'value': self.get_attr_value('process_request'),
+                                'display': 'Process Request'},
+        }
