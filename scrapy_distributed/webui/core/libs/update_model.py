@@ -11,7 +11,6 @@ def update_spider(request, id):
     crawler = request.POST.getlist('crawler[]')
     settings = request.POST.getlist('settings[]')
     logger = request.POST.get('logger')
-    print 'xxxxx', logger
     allowed_domains = dumps(allowed_domains)
     start_urls = dumps(start_urls)
     methods = dumps(methods)

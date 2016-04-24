@@ -11,7 +11,6 @@ def create_spider(request):
     settings = request.POST.getlist('settings[]')
     logger = request.POST.get('logger')
     methods = request.POST.getlist('methods[]')
-    print methods
     allowed_domains = dumps(allowed_domains)
     start_urls = dumps(start_urls)
     methods = dumps(methods)

@@ -21,8 +21,6 @@ class CommonSpider(CrawlSpider):
         for spider_rule in spider_rules:
             extractor = spider_rule.get_extractor
             rule_paras = spider_rule.get_rule_paras
-            print rule_paras
-            print extractor
             rule_list.append(Rule(LinkExtractor(**extractor),
                                   **rule_paras))
         self.rules = tuple(rule_list)

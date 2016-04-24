@@ -38,7 +38,8 @@ def edit_spider(request, id):
 def delete_spider(request, id):
     if request.method == 'POST':
         result = ds(id)
-        return redirect(reverse('all_spiders', args=[]))
+        if result:
+            return redirect(reverse('all_spiders', args=[]))
 
 
 def all_spiders(request):
@@ -76,4 +77,5 @@ def edit_rule(request, id):
 def delete_rule(request, id):
     if request.method == 'POST':
         result = dr(id)
-        return redirect(reverse('all_spiders', args=[]))
+        if result:
+            return redirect(reverse('all_spiders', args=[]))

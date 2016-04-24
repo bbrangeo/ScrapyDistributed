@@ -4,6 +4,7 @@ $(function () {
         var $btn = $(this).closest('div').clone();
         var $input = $(this).closest('div').prev().clone();
         $input.addClass('col-md-offset-2').find('input').val('');
+        $input.find('textarea').text('');
         $btn.find('.add').attr({'class': 'btn btn-danger btn-xs del', 'value': 'delete'});
         $input.appendTo($form_group);
         $btn.appendTo($form_group);
