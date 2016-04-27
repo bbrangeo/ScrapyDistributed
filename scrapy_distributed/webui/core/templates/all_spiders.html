@@ -18,6 +18,7 @@
                     <td>{{ spider.created_at }}</td>
                     <td>
                         <a href="{% url 'edit_spider' spider.id %}" class="btn btn-primary btn-xs">edit</a>
+                        <a href="{% url 'create_rule' spider.id %}" class="btn btn-success btn-xs">rule</a>
 
                         <form action="{% url 'delete_spider' spider.id %}" method="post" class="form-inline del-form">
                             {% csrf_token %}

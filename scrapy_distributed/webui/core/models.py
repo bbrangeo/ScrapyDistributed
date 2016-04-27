@@ -106,7 +106,12 @@ class Rule(Model):
         attr_dict = {}
         for attr in attrs:
             value = self.get_attr_value(attr)
-            if value:
+            if isinstance(value, (tuple, )):
+                if len(value) > 0 and value[0]:
+                    attr_dict[attr] = value
+            elif isinstance(value, (long, )):
+                attr_dict[attr] = value
+            elif value:
                 attr_dict[attr] = value
         return attr_dict
 
@@ -119,14 +124,17 @@ class Rule(Model):
                  'tags', 'attrs', 'canonicalize',
                  'unique', 'process_value'
                  ]
-
-        return self.get_dict(attrs)
+        dict = self.get_dict(attrs)
+        print dict
+        return dict
 
     @property
     def get_rule_paras(self):
         attrs = ['callback', 'cb_kwargs', 'follow',
                  'process_links', 'process_request']
-        return self.get_dict(attrs)
+        dict = self.get_dict(attrs)
+        print dict
+        return dict
 
     def get_attr_value(self, attr):
         if hasattr(self, 'get_' + attr):

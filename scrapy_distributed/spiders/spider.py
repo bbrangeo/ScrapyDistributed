@@ -18,6 +18,7 @@ class CommonSpider(CrawlSpider):
         self.start_urls = spider.get_start_urls
         rule_list = []
         spider_rules = spider.rules
+        print 'ssssspider_rules', len(spider_rules)
         for spider_rule in spider_rules:
             extractor = spider_rule.get_extractor
             rule_paras = spider_rule.get_rule_paras
@@ -42,4 +43,4 @@ class CommonSpider(CrawlSpider):
             return None
 
     def parse_start_url(self, response):
-        print response.url + response.code
+        print response.url
