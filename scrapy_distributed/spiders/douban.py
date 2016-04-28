@@ -2,7 +2,7 @@
 from scrapy import Request, Spider
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from scrapy_distributed.items import DoubanItem
+from scrapy_distributed.item import DoubanItem
 
 
 class DoubanSpider(CrawlSpider):
@@ -13,8 +13,7 @@ class DoubanSpider(CrawlSpider):
     )
 
     rules = (
-        Rule(link_extractor=LinkExtractor(allow=('/subject/\d',)), callback='parse_item',
-             process_links='process_links'),
+        Rule(link_extractor=LinkExtractor(allow=('/subject/\d',)), callback='parse_item'),
         Rule(link_extractor=LinkExtractor(restrict_xpaths=('//*[@id="content"]//span[@class="next"]',)),
              callback='parse_next', follow=True),
     )
@@ -28,5 +27,6 @@ class DoubanSpider(CrawlSpider):
     def parse_next(self, response):
         print response.url
 
-    def process_links(self, links):
-        return links
+    def parse_start_url(self, response):
+        print response.url
+

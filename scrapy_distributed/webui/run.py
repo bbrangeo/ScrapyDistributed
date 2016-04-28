@@ -7,7 +7,7 @@ from scrapy_distributed.spiders.spider import CommonSpider
 settings =  get_project_settings()
 
 process = CrawlerProcess(settings)
-spider = get_spider('douban')
+spider = get_spider('douban2')
 
 rules = get_rules(spider.name)
 print spider

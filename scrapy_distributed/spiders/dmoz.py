@@ -1,7 +1,7 @@
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-from scrapy_distributed.items import ExampleLoader
+from scrapy_distributed.item import ExampleLoader
 
 
 class DmozSpider(CrawlSpider):
