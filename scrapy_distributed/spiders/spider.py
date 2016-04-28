@@ -43,8 +43,7 @@ class CommonSpider(CrawlSpider):
     def parse_start_url(self, response):
         print response.url
 
-
     def create_item(self, fields):
-        item = CommonItem(self.name, ['name', 'url']).get_item()
+        item = CommonItem(self.name, fields).get_item()
         print type(item)
         return item
