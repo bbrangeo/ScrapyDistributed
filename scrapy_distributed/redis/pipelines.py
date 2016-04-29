@@ -5,7 +5,6 @@ from . import connection
 
 
 class RedisPipeline(object):
-    """Pushes serialized item into a redis list/queue"""
 
     def __init__(self, server):
         self.server = server
@@ -25,10 +24,14 @@ class RedisPipeline(object):
 
     def _process_item(self, item, spider):
         key = self.item_key(item, spider)
+        ip_key = self.item_ip_key(item, spider)
         data = self.encoder.encode(item)
         self.server.rpush(key, data)
+        self.server.rpush(ip_key, data)
         return item
 
     def item_key(self, item, spider):
-        """Returns redis key based on given spider"""
-        return "%s:items" % spider.name
+        return "%s:items:all" % spider.name
+
+    def item_ip_key(self, item, spider):
+        return "%s:items:%s" % (spider.name, item['ip'])

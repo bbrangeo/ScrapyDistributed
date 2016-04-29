@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-{% load staticfiles %}
 <html>
 <head>
     <meta charset="UTF-8">
     <title></title>
+    {% block static %}
+    {% load staticfiles %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/hplus.css' %}">
@@ -11,6 +12,7 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/webui.js' %}"></script>
+    {% endblock %}
 </head>
 <body>
 {% include 'nav.html' %}

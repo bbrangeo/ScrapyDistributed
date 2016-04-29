@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block static %}
+    {{ block.super }}
+    {% load staticfiles %}
+    <script src="{% static 'js/highcharts.js' %}"></script>
+    <script src="{% static 'js/monitor.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% autoescape off %}
+        <div id="charts"></div>
+        <script>
+            $('#charts').charts({{ categories}}, {{ data }});
+        </script>
+        {% endautoescape %}
+    </div>
+{% endblock %}

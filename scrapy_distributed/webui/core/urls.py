@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^edit_rule/(?P<id>[0-9]+)', views.edit_rule, name='edit_rule'),
     url(r'^delete_spider/(?P<id>[0-9]+)', views.delete_spider, name='delete_spider'),
     url(r'^delete_rule/(?P<id>[0-9]+)', views.delete_rule, name='delete_rule'),
+    url(r'^monitor/(?P<spider_name>\w+)', views.monitor, name='monitor')
 
 ]

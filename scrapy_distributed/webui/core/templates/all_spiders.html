@@ -16,9 +16,10 @@
                     <td>{{ spider.name }}</td>
                     <td>{{ spider.allowed_domains}}</td>
                     <td>{{ spider.created_at }}</td>
-                    <td>
+                    <td class="col-md-4">
                         <a href="{% url 'edit_spider' spider.id %}" class="btn btn-primary btn-xs">edit</a>
-                        <a href="{% url 'create_rule' spider.id %}" class="btn btn-success btn-xs">rule</a>
+                        <a href="{% url 'monitor' spider.name %}" class="btn btn-info btn-xs">monitor</a>
+                        <a href="{% url 'create_rule' spider.id %}" class="btn btn-success btn-xs">new rule</a>
 
                         <form action="{% url 'delete_spider' spider.id %}" method="post" class="form-inline del-form">
                             {% csrf_token %}

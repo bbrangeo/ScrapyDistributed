@@ -1,3 +1,5 @@
+from datetime import datetime
+import json
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -5,6 +7,8 @@ from .models import Spider, Rule
 from libs.create_model import create_spider as cs, create_rule as cr
 from libs.update_model import update_spider as us, update_rule as ur
 from libs.delete_model import delete_spider as ds, delete_rule as dr
+from scrapy_distributed.webui.core.libs.common import get_ip
+from scrapy_distributed.webui.lib.settings import REDIS as redis
 
 
 def index(request):
@@ -79,3 +83,28 @@ def delete_rule(request, id):
         result = dr(id)
         if result:
             return redirect(reverse('all_spiders', args=[]))
+
+
+def monitor(request, spider_name):
+    keys = redis.keys(str(spider_name + ':items:*.*'))
+    print keys
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    categories = []
+    data = []
+    for key in keys:
+        count = redis.llen(key)
+        ip = get_ip(key)
+        categories.append(ip)
+        data.append({
+            'y': count,
+            'color': '#EEE'
+        })
+        print 'key', key, 'count', count
+
+    context = {'categories': json.dumps(categories), 'data': data, 'title': 'Crawls results of Spider' + spider_name}
+
+    return render(request, 'monitor.html', context)
+
+
+def get_s(key):
+    return ''
