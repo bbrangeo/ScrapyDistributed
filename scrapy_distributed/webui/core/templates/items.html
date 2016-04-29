@@ -6,15 +6,15 @@
 
             <ul class="nav nav-tabs">
                 {% for slave in slaves %}
-                {% if forloop.first %}
+                {% if slave.hash == hash %}
                 <li class="active">
-                    <a href="#{{ slave.hash }}" data-toggle="tab">
-                        {{ slave.ip }}
+                    <a href="{% url 'items' spider_name slave.hash %}">
+                    {{ slave.ip }}
                     </a>
                 </li>
                 {% else %}
                 <li>
-                    <a href="#{{ slave.hash }}" data-toggle="tab">
+                    <a href="{% url 'items' spider_name slave.hash %}">
                         {{ slave.ip }}
                     </a>
                 </li>
@@ -24,28 +24,8 @@
             {% autoescape off %}
             <div class="tab-content">
                 {% for slave in slaves %}
-                {% if forloop.first %}
+                {% if slave.hash == hash %}
                 <div class="tab-pane fade in active" id="{{ slave.hash }}">
-                    <table class="table table-bordered">
-                        {% for item in slave.items %}
-                        {% if forloop.first %}
-                        <tr>
-                            {% for key, value in item.items %}
-                            <th>{{ key }}</th>
-                            {% endfor %}
-                        </tr>
-                        {% endif %}
-                        <tr>
-                            {% for key, value in item.items %}
-                            <td>{{ value }}</td>
-                            {% endfor %}
-                        </tr>
-
-                        {% endfor %}
-                    </table>
-                </div>
-                {% else %}
-                <div class="tab-pane fade" id="{{ slave.hash }}">
                     <table class="table table-bordered">
                         {% for item in slave.items %}
                         {% if forloop.first %}

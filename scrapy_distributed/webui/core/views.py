@@ -103,13 +103,16 @@ def monitor(request, spider_name):
     return render(request, 'monitor.html', context)
 
 
-def items(request, spider_name, hash):
+def items(request, spider_name, hash=None):
+    print hash
     keys = redis.keys(str(spider_name + ':items:*.*'))
     slaves = []
     for key in keys:
         ip = get_ip(key)
+        
         results = redis.lrange(key, -50, -1)
-        print results
+        if not hash:
+            hash = get_hash(ip)
         items = []
         for result in results:
             items.append(json.loads(result))
@@ -118,6 +121,6 @@ def items(request, spider_name, hash):
             'hash': get_hash(ip),
             'items': items
         })
-    context = {'spider_name': spider_name, 'slaves': slaves}
+    context = {'spider_name': spider_name, 'slaves': slaves, 'hash': hash}
 
     return render(request, 'items.html', context)
