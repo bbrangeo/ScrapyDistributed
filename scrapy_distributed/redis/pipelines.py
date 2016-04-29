@@ -26,8 +26,8 @@ class RedisPipeline(object):
         key = self.item_key(item, spider)
         ip_key = self.item_ip_key(item, spider)
         data = self.encoder.encode(item)
-        self.server.rpush(key, data)
-        self.server.rpush(ip_key, data)
+        self.server.lpush(key, data)
+        self.server.lpush(ip_key, data)
         return item
 
     def item_key(self, item, spider):

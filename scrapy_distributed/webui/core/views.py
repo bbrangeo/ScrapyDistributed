@@ -3,13 +3,14 @@ import json
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template import Context
 from .models import Spider, Rule
 from libs.create_model import create_spider as cs, create_rule as cr
 from libs.update_model import update_spider as us, update_rule as ur
 from libs.delete_model import delete_spider as ds, delete_rule as dr
-from scrapy_distributed.webui.core.libs.common import get_ip
+from scrapy_distributed.webui.core.libs.common import get_ip, get_hash
 from scrapy_distributed.webui.lib.settings import REDIS as redis
-
+from django.utils.safestring import SafeString
 
 def index(request):
     spiders = Spider.objects.order_by('updated_at')
@@ -87,8 +88,6 @@ def delete_rule(request, id):
 
 def monitor(request, spider_name):
     keys = redis.keys(str(spider_name + ':items:*.*'))
-    print keys
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     categories = []
     data = []
     for key in keys:
@@ -99,12 +98,26 @@ def monitor(request, spider_name):
             'y': count,
             'color': '#EEE'
         })
-        print 'key', key, 'count', count
-
     context = {'categories': json.dumps(categories), 'data': data, 'title': 'Crawls results of Spider' + spider_name}
 
     return render(request, 'monitor.html', context)
 
 
-def get_s(key):
-    return ''
+def items(request, spider_name, hash):
+    keys = redis.keys(str(spider_name + ':items:*.*'))
+    slaves = []
+    for key in keys:
+        ip = get_ip(key)
+        results = redis.lrange(key, -50, -1)
+        print results
+        items = []
+        for result in results:
+            items.append(json.loads(result))
+        slaves.append({
+            'ip': ip,
+            'hash': get_hash(ip),
+            'items': items
+        })
+    context = {'spider_name': spider_name, 'slaves': slaves}
+
+    return render(request, 'items.html', context)
