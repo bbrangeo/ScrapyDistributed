@@ -8,7 +8,7 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-from scrapy_distributed.lib import get_local_ip
+from libs.common import get_local_ip
 
 LOCAL_IP = get_local_ip()
 
