@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from scrapy.spider import CrawlSpider
 import new
+import logging
 from scrapy import Request
 from scrapy_splash import SplashRequest
 from scrapy.spiders import Rule
@@ -35,7 +36,7 @@ class CommonSpider(CrawlSpider):
         self.__dict__[method_name] = new.instancemethod(_method, self, None)
 
     def parse_method(self, text):
-        print 'method', text
+        logging.debug('Spider method: ' + text)
         pattern = re.compile(u'def\s(.*?)\(self,.*?\):')
         method_name = re.search(pattern, text)
         if method_name:
@@ -48,7 +49,6 @@ class CommonSpider(CrawlSpider):
 
     def create_item(self, fields):
         item = CommonItem(self.name, fields).get_item()
-        print type(item)
         return item
 
     def by_splash(self, request):
@@ -58,4 +58,5 @@ class CommonSpider(CrawlSpider):
                 'wait': 1,
             }
         }
+        logging.debug('Crawl ' + request.url + ' by splash')
         return request

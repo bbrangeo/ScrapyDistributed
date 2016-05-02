@@ -1,1 +1,2 @@
-__author__ = 'GERMY'
+from .agent import RandomUserAgentMiddleware
+from .proxy import ProxyMiddleware

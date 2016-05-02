@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+import logging
 from django.db.models import Model, CharField, DateTimeField, ForeignKey, IntegerField, TextField
 from libs.parse_model import parse_property
 
@@ -125,7 +125,7 @@ class Rule(Model):
                  'unique', 'process_value'
                  ]
         dict = self.get_dict(attrs)
-        print dict
+        logging.debug('Rule extractor: ' + str(dict))
         return dict
 
     @property
@@ -133,7 +133,7 @@ class Rule(Model):
         attrs = ['callback', 'cb_kwargs', 'follow',
                  'process_links', 'process_request']
         dict = self.get_dict(attrs)
-        print dict
+        logging.debug('Rule para: ' + str(dict))
         return dict
 
     def get_attr_value(self, attr):
@@ -149,7 +149,6 @@ class Rule(Model):
 
     @property
     def get_allow(self):
-        print 'xxxx', self.allow
         return parse_property(self.allow)
 
     @property

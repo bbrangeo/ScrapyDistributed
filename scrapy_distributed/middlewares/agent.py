@@ -1,8 +1,8 @@
 import random
+import logging
 
 
 class RandomUserAgentMiddleware(object):
-
     def __init__(self, agents):
         self.agents = agents
 
@@ -11,5 +11,6 @@ class RandomUserAgentMiddleware(object):
         return cls(settings.getlist('USER_AGENTS'))
 
     def process_request(self, request, spider):
-        print "**************************" + random.choice(self.agents)
-        request.headers.setdefault('User-Agent', random.choice(self.agents))
+        agent = random.choice(self.agents)
+        logging.info('Crawling ' + request.url + ', using ' + agent)
+        request.headers.setdefault('User-Agent', agent)

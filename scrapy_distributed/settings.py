@@ -41,12 +41,8 @@ USER_AGENTS = [
 ]
 
 PROXIES = [
-    {'ip_port': '111.11.228.75:80', 'user_pass': ''},
-    {'ip_port': '120.198.243.22:80', 'user_pass': ''},
-    {'ip_port': '111.8.60.9:8123', 'user_pass': ''},
-    {'ip_port': '101.71.27.120:80', 'user_pass': ''},
-    {'ip_port': '122.96.59.104:80', 'user_pass': ''},
-    {'ip_port': '122.224.249.122:8088', 'user_pass': ''},
+    {'url': '111.11.228.75:80' },
+    {'url': '120.198.243.22:80'},
 ]
 
 # Mysql Connect
@@ -96,6 +92,8 @@ MYSQL_ENCODING = 'utf8'
 # }
 
 DOWNLOADER_MIDDLEWARES = {
+    'scrapy_distributed.middlewares.RandomUserAgentMiddleware': 880,
+    'scrapy_distributed.middlewares.ProxyMiddleware': 890,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
