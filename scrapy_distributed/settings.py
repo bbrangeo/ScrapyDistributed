@@ -93,7 +93,7 @@ MYSQL_ENCODING = 'utf8'
 
 DOWNLOADER_MIDDLEWARES = {
     'scrapy_distributed.middlewares.RandomUserAgentMiddleware': 880,
-    'scrapy_distributed.middlewares.ProxyMiddleware': 890,
+    # 'scrapy_distributed.middlewares.ProxyMiddleware': 890,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
@@ -127,6 +127,8 @@ MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 MONGODB_DB = 'spider'
 MONGODB_SHEET = 'sheet'
+
+COMMANDS_MODULE = 'scrapy_distributed.commands'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
