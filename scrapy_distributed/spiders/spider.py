@@ -45,7 +45,7 @@ class CommonSpider(CrawlSpider):
             return None
 
     def parse_start_url(self, response):
-        print response.url
+        logging.debug('Parsing start url ' + response.url)
 
     def create_item(self, fields):
         item = CommonItem(self.name, fields).get_item()

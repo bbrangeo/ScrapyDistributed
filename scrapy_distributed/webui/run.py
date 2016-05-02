@@ -10,6 +10,5 @@ process = CrawlerProcess(settings)
 spider = get_spider('douban2')
 
 rules = get_rules(spider.name)
-print spider
 process.crawl(CommonSpider, spider, rules)
 process.start()
