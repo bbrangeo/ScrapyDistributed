@@ -53,8 +53,8 @@ MYSQL_DATABASE = 'scrapy_distributed'
 MYSQL_PORT = 3306
 MYSQL_ENCODING = 'utf8'
 
-# SCHEDULER = "scrapy_distributed.redis.scheduler.Scheduler"
-# SCHEDULER_PERSIST = True
+SCHEDULER = "scrapy_distributed.redis.scheduler.Scheduler"
+SCHEDULER_PERSIST = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS=32
