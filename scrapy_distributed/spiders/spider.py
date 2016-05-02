@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from scrapy.spider import CrawlSpider
 import new
+from scrapy import Request
+from scrapy_splash import SplashRequest
 from scrapy.spiders import Rule
 from scrapy.linkextractors import LinkExtractor
 import re
@@ -8,6 +10,7 @@ from scrapy.utils.project import get_project_settings
 
 settings = get_project_settings()
 from scrapy_distributed.items.items import CommonItem
+
 
 class CommonSpider(CrawlSpider):
     def __init__(self, spider, rule):
@@ -47,3 +50,12 @@ class CommonSpider(CrawlSpider):
         item = CommonItem(self.name, fields).get_item()
         print type(item)
         return item
+
+    def by_splash(self, request):
+        request.meta['splash'] = {
+            'endpoint': 'render.html',
+            'args': {
+                'wait': 1,
+            }
+        }
+        return request

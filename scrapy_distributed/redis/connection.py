@@ -13,7 +13,6 @@ def from_settings(settings):
     port = settings.get('REDIS_PORT', REDIS_PORT)
     password = settings.get('REDIS_PASSWORD', REDIS_PASSWORD)
 
-    # REDIS_URL takes precedence over host/port specification.
     if url:
         return redis.from_url(url)
     else:

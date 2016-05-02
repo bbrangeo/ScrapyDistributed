@@ -1,21 +1,19 @@
 from pymongo import MongoClient
 
-
-
-# Default values.
-MONGODB_URL = None
 MONGODB_HOST = 'localhost'
-MONGODB_USER = 'root'
-MONGODB_PASSWORD = ''
+MONGODB_PORT = 27017
+MONGODB_DB = 'spider'
+MONGODB_SHEET = 'sheet'
 
 def from_settings(settings):
-    url = settings.get('MONGODB_URL',  MONGODB_URL)
     host = settings.get('MONGODB_HOST', MONGODB_HOST)
-    user = settings.get('MONGODB_USER', MONGODB_USER)
-    password = settings.get('MONGODB_PASSWORD', MONGODB_PASSWORD)
-
-    if url:
-        return MongoClient(url)
+    port = settings.get('MONGODB_PORT', MONGODB_PORT)
+    db = settings.get('MONGODB_DB', MONGODB_DB)
+    sheet = settings.get('MONGODB_SHEET', MONGODB_SHEET)
+    client = MongoClient(host, port)
+    db = client['db']
+    sheet = db['sheet']
+    if sheet:
+        return sheet
     else:
-        url = 'mongodb://{0}:{1}@{2}'.format(user, password, host)
-        return MongoClient(url)
+        return False
