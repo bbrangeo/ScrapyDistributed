@@ -20,8 +20,10 @@ class DoubanSpider(CrawlSpider):
 
     def parse_item(self, response):
         name= response.xpath('//title/text()')[0].extract()
+        title = response.xpath('//title/text()')[0].extract()
         item = DoubanItem()
         item['name'] = name
+        item['title'] = title
         yield item
 
     def parse_next(self, response):
