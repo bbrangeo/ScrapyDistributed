@@ -14,7 +14,7 @@ from scrapy_distributed.items.items import CommonItem
 
 
 class CommonSpider(CrawlSpider):
-    def __init__(self, spider, rule):
+    def __init__(self, spider):
         self.name = spider.name
         self.allowed_domains = spider.get_allowed_domains
         self.start_urls = spider.get_start_urls

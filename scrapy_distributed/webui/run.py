@@ -7,9 +7,8 @@ def crawl(name):
     settings =  get_project_settings()
     process = CrawlerProcess(settings)
     spider = get_spider(name)
-    rules = get_rules(spider.name)
-    process.crawl(CommonSpider, spider, rules)
+    process.crawl(CommonSpider, spider)
     process.start()
 
 
-crawl('douban2')
+crawl('douban')

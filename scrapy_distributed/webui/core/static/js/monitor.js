@@ -34,7 +34,6 @@ $.fn.charts = function (categories, data, title) {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    color: colors[0],
                     style: {
                         fontWeight: 'bold'
                     },
